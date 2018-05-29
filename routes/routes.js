@@ -5,7 +5,7 @@ var Contact = require('../models/contacts');
 routes.get('/contacts', function(req, res) {
     Contact.find((err, contacts) => {
         if(err)
-            res.send("couldn't get the data");
+            res.json({msg: "couldn't get the data"});
             
         res.json(contacts);
     });
@@ -20,17 +20,17 @@ routes.post('/contact', function(req, res) {
     newContact.save((err, contact) => {
         if(err)
         {
-            res.send('data could not be stored');
+            res.json({msg: 'Failed to add contact'});
         }
 
-        res.send('data stored successfully');
+        res.json({msg: 'data stored successfully'});
     });
 });
 
 routes.delete('/contact/:id', function(req, res) {
-    Contact.remove({id: req.params.id}, (err, contact) => {
+    Contact.remove({_id: req.params.id}, (err, contact) => {
         if(err)
-            res.send(err);
+            res.json(err);
         
         res.json(contact);
     });
